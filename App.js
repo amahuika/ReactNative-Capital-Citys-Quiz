@@ -1,41 +1,73 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet } from "react-native";
-import { createStackNavigator } from "@react-navigation/stack";
-import { NavigationContainer } from "@react-navigation/native";
+
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { FontAwesome } from "@expo/vector-icons";
+
 import HomeScreen from "./screens/HomeScreen";
 import QuizScreen from "./screens/QuizScreen";
 import ResultsScreen from "./screens/ResultsScreen";
 import WeatherScreen from "./screens/WeatherScreen";
 
-const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
     <>
       <StatusBar style="dark" backgroundColor="#fefefe" />
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerTitleAlign: "center" }}>
-          <Stack.Screen
+        <Tab.Navigator screenOptions={{ headerTitleAlign: "center" }}>
+          <Tab.Screen
             name="home"
             component={HomeScreen}
-            options={{ title: "Welcome" }}
+            options={{
+              headerTitle: "Welcome",
+              tabBarLabel: "Home",
+
+              tabBarIcon: ({ size, color }) => (
+                <FontAwesome name="home" size={size} color={color} />
+              ),
+            }}
           />
-          <Stack.Screen
+          <Tab.Screen
             name="quiz"
             component={QuizScreen}
-            options={{ title: "Capitals Of The World" }}
+            options={{
+              headerTitle: "Capitals Of The World",
+              tabBarLabel: "Quiz",
+              tabBarIcon: ({ size, color }) => (
+                <FontAwesome
+                  name="question-circle-o"
+                  size={size}
+                  color={color}
+                />
+              ),
+            }}
           />
-          <Stack.Screen
+          <Tab.Screen
             name="results"
             component={ResultsScreen}
-            options={{ title: "Your Results" }}
+            options={{
+              headerTitle: "Your Results",
+              tabBarLabel: "Results",
+              tabBarIcon: ({ size, color }) => (
+                <FontAwesome name="list" size={size} color={color} />
+              ),
+            }}
           />
-          <Stack.Screen
+          <Tab.Screen
             name="weather"
             component={WeatherScreen}
-            options={{ title: "Weather in the Capitals" }}
+            options={{
+              headerTitle: "Weather in the Capitals",
+              tabBarLabel: "Weather",
+              tabBarIcon: ({ size, color }) => (
+                <FontAwesome name="cloud" size={size} color={color} />
+              ),
+            }}
           />
-        </Stack.Navigator>
+        </Tab.Navigator>
       </NavigationContainer>
     </>
   );

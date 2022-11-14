@@ -17,19 +17,19 @@ function HomeScreen({ navigation }) {
       <MyButton
         text="Quiz"
         btnStyle={styles.quizButton}
-        info="Tap Here! to test your knowledge on the capital cities of the world"
+        info="Test your knowledge on the capital cities of the world"
         onPress={quizPress}
       />
       <MyButton
         text="Results"
         btnStyle={styles.resultsButton}
-        info="Tap here! to view your past results and see what answers you got incorrect"
+        info="View your past results and see what answers you got incorrect"
         onPress={resultsPress}
       />
       <MyButton
         text="Weather"
         btnStyle={styles.weatherButton}
-        info="Tap here! to check the current weather in any of the capital cities of the world"
+        info="View the current weather in any of the capital cities of the world"
         onPress={weatherPress}
       />
     </View>
