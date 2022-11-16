@@ -8,7 +8,7 @@ function MyButton({ text, btnStyle, textStyle, info, onPress }) {
       onPress={onPress}
     >
       <Text style={[styles.buttonText, textStyle]}>{text}</Text>
-      <Text style={styles.infoText}>{info}</Text>
+      {info !== undefined && <Text style={styles.infoText}>{info}</Text>}
     </Pressable>
   );
 }

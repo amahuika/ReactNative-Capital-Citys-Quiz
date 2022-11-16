@@ -1,15 +1,22 @@
 import { useLayoutEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, ToastAndroid } from "react-native";
 import capitalCitiesData from "../assets/gameData/capitalCitiesData";
 import MyButton from "../components/MyButton";
 import { ShuffleArray } from "../assets/helperFunctions/HelperFunctions";
+import {
+  ALERT_TYPE,
+  Dialog,
+  AlertNotificationRoot,
+  Toast,
+} from "react-native-alert-notification";
+
+const quizData = capitalCitiesData;
 
 function QuizScreen() {
   const [gameData, setGameData] = useState({ country: "", capital: "" });
   const [options, setOptions] = useState([]);
   const [userSelected, setUserSelected] = useState();
 
-  const quizData = capitalCitiesData;
   // to do
   //useEffect so it loads a random country on load
   // generate random number from the length of quiz data
@@ -23,29 +30,46 @@ function QuizScreen() {
   // show all results in a list on the quiz screen will need a results state object with 2 arrays correct and incorrect
 
   useLayoutEffect(() => {
-    const randNum = Math.floor(Math.random() * quizData.length);
+    let randNum = Math.floor(Math.random() * quizData.length);
     setGameData((val) => ({
       country: quizData[randNum].country,
       capital: quizData[randNum].capital,
     }));
 
-    const Array = [
-      quizData[randNum].capital,
-      quizData[randNum + 1].capital,
-      quizData[randNum + 2].capital,
-      quizData[randNum + 3].capital,
-    ];
+    const optionsArr = [quizData[randNum].capital];
 
-    const shuffledArray = ShuffleArray(Array);
+    while (optionsArr.length < 4) {
+      randNum = Math.floor(Math.random() * quizData.length);
+      optionsArr.push(quizData[randNum].capital);
+    }
 
+    const shuffledArray = ShuffleArray(optionsArr);
     setOptions((val) => [...shuffledArray]);
   }, [userSelected]);
 
   function answerHandler(selected) {
-    setUserSelected(selected);
     if (selected === gameData.capital) {
+      Dialog.show({
+        type: ALERT_TYPE.SUCCESS,
+        title: `${selected} Is Correct!`,
+        textBody: `The Capital City of ${gameData.country} is ${gameData.capital}`,
+        autoClose: 1500,
+        onHide: () => {
+          setUserSelected(selected);
+        },
+      });
       console.log("correct");
     } else {
+      Dialog.show({
+        type: ALERT_TYPE.DANGER,
+        title: `${selected} Is Incorrect`,
+        textBody: `The Capital City of ${gameData.country} is ${gameData.capital}`,
+        autoClose: 1000,
+        onHide: () => {
+          setUserSelected(selected);
+        },
+      });
+
       console.log("Wrong");
     }
     console.log(selected);
@@ -53,6 +77,7 @@ function QuizScreen() {
 
   return (
     <View style={styles.outerContainer}>
+      <AlertNotificationRoot />
       <View style={styles.questionContainer}>
         <Text style={styles.questionText}>
           What is the capital city of {gameData.country} ?
@@ -101,12 +126,13 @@ export default QuizScreen;
 
 const styles = StyleSheet.create({
   outerContainer: {
-    paddingHorizontal: 4,
+    paddingHorizontal: 8,
   },
   questionContainer: {
     width: "100%",
     alignItems: "center",
-    marginVertical: 16,
+    marginTop: 16,
+    marginBottom: 8,
   },
   questionText: {
     fontSize: 18,
@@ -120,13 +146,16 @@ const styles = StyleSheet.create({
   btnStyle: {
     width: "45%",
     backgroundColor: "#dddcdc",
-    height: 50,
     borderColor: "#9593f5",
     borderWidth: 1,
+    height: "auto",
+    marginBottom: 8,
   },
   btnText: {
     color: "black",
     fontSize: 16,
-    paddingTop: 4,
+    padding: 4,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
