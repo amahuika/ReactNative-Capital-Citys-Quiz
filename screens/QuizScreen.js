@@ -1,14 +1,15 @@
-import { useLayoutEffect, useState } from "react";
-import { StyleSheet, Text, View, ToastAndroid } from "react-native";
+import { useEffect, useLayoutEffect, useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
 import capitalCitiesData from "../assets/gameData/capitalCitiesData";
 import MyButton from "../components/MyButton";
-import { ShuffleArray } from "../assets/helperFunctions/HelperFunctions";
 import {
-  ALERT_TYPE,
-  Dialog,
-  AlertNotificationRoot,
-  Toast,
-} from "react-native-alert-notification";
+  ShuffleArray,
+  RandomNum,
+} from "../assets/helperFunctions/HelperFunctions";
+import { AlertCorrect, AlertIncorrect } from "../assets/toasters/MyToasters";
+import { AlertNotificationRoot } from "react-native-alert-notification";
+import OptionButtons from "../components/quiz/OptionButtons";
+import { DatabaseConnection } from "../assets/database/DatabaseConnection";
 
 const quizData = capitalCitiesData;
 
@@ -16,21 +17,28 @@ function QuizScreen() {
   const [gameData, setGameData] = useState({ country: "", capital: "" });
   const [options, setOptions] = useState([]);
   const [userSelected, setUserSelected] = useState();
+  const [results, setResults] = useState({ correct: [], incorrect: [] });
+  const [hasStarted, setHasStarted] = useState(false);
 
-  // to do
-  //useEffect so it loads a random country on load
-  // generate random number from the length of quiz data
-  // use random number to pick a country
-  // put that country and answer into a gameData state
-  // add a options array state and add the correct option to the array then add 3 more random options
+  const [fetchReturn, setFetchReturn] = useState([]);
 
-  // on press check if it matches the correct answer and show notification
-  // if it is incorrect save the answer to a sql lite database
+  const db = DatabaseConnection.getConnection();
 
-  // show all results in a list on the quiz screen will need a results state object with 2 arrays correct and incorrect
+  useEffect(() => {
+    createTable();
+  }, []);
+
+  function createTable() {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "CREATE TABLE IF NOT EXISTS table_results (id INTEGER PRIMARY KEY AUTOINCREMENT, item VARCHAR(255))",
+        []
+      );
+    });
+  }
 
   useLayoutEffect(() => {
-    let randNum = Math.floor(Math.random() * quizData.length);
+    let randNum = RandomNum(quizData.length);
     setGameData((val) => ({
       country: quizData[randNum].country,
       capital: quizData[randNum].capital,
@@ -39,7 +47,7 @@ function QuizScreen() {
     const optionsArr = [quizData[randNum].capital];
 
     while (optionsArr.length < 4) {
-      randNum = Math.floor(Math.random() * quizData.length);
+      randNum = RandomNum(quizData.length);
       optionsArr.push(quizData[randNum].capital);
     }
 
@@ -47,77 +55,101 @@ function QuizScreen() {
     setOptions((val) => [...shuffledArray]);
   }, [userSelected]);
 
+  // answer handler
   function answerHandler(selected) {
     if (selected === gameData.capital) {
-      Dialog.show({
-        type: ALERT_TYPE.SUCCESS,
-        title: `${selected} Is Correct!`,
-        textBody: `The Capital City of ${gameData.country} is ${gameData.capital}`,
-        autoClose: 1500,
-        onHide: () => {
-          setUserSelected(selected);
-        },
-      });
-      console.log("correct");
-    } else {
-      Dialog.show({
-        type: ALERT_TYPE.DANGER,
-        title: `${selected} Is Incorrect`,
-        textBody: `The Capital City of ${gameData.country} is ${gameData.capital}`,
-        autoClose: 1000,
-        onHide: () => {
-          setUserSelected(selected);
-        },
-      });
+      AlertCorrect(
+        selected,
+        gameData.capital,
+        gameData.country,
+        setUserSelected
+      );
 
-      console.log("Wrong");
+      setResults((value) => {
+        return {
+          correct: [`${gameData.country} - ${selected}`, ...value.correct],
+          incorrect: [...value.incorrect],
+        };
+      });
+    } else {
+      AlertIncorrect(
+        selected,
+        gameData.capital,
+        gameData.country,
+        setUserSelected
+      );
+
+      insertData(selected);
+
+      setResults((value) => {
+        return {
+          correct: [...value.correct],
+          incorrect: [`${gameData.country} - ${selected}`, ...value.incorrect],
+        };
+      });
     }
-    console.log(selected);
+  }
+
+  function onStart() {
+    setHasStarted(true);
+  }
+
+  function insertData(item) {
+    db.transaction((tx) => {
+      tx.executeSql("INSERT INTO table_results (item) VALUES (?)", [item]);
+      // (tx, results) => {
+      //   console.log("Results", results.rowsAffected);
+      //   console.log(item);
+      // };
+    });
   }
 
   return (
     <View style={styles.outerContainer}>
       <AlertNotificationRoot />
-      <View style={styles.questionContainer}>
-        <Text style={styles.questionText}>
-          What is the capital city of {gameData.country} ?
-        </Text>
-      </View>
-      <View style={styles.buttonContainer}>
-        <MyButton
-          btnStyle={styles.btnStyle}
-          textStyle={styles.btnText}
-          text={options[0]}
-          onPress={() => {
-            answerHandler(options[0]);
-          }}
-        />
-        <MyButton
-          btnStyle={styles.btnStyle}
-          textStyle={styles.btnText}
-          text={options[1]}
-          onPress={() => {
-            answerHandler(options[1]);
-          }}
-        />
-      </View>
-      <View style={styles.buttonContainer}>
-        <MyButton
-          btnStyle={styles.btnStyle}
-          textStyle={styles.btnText}
-          text={options[2]}
-          onPress={() => {
-            answerHandler(options[2]);
-          }}
-        />
-        <MyButton
-          btnStyle={styles.btnStyle}
-          textStyle={styles.btnText}
-          text={options[3]}
-          onPress={() => {
-            answerHandler(options[3]);
-          }}
-        />
+
+      {!hasStarted && (
+        <View style={styles.buttonContainer}>
+          <Text>
+            You will be given the name of a Country and you will have to select
+            the correct capital city fom the options provided
+          </Text>
+          <MyButton
+            text="Start quiz"
+            btnStyle={styles.btnStyle}
+            textStyle={styles.btnText}
+            onPress={onStart}
+          />
+        </View>
+      )}
+
+      {hasStarted && (
+        <>
+          <View style={styles.questionContainer}>
+            <Text style={styles.questionText}>{gameData.country}</Text>
+          </View>
+          <OptionButtons options={options} onPressAnswer={answerHandler} />
+        </>
+      )}
+
+      <View style={styles.resultsOuter}>
+        <View style={styles.resultsInner}>
+          <Text>Correct</Text>
+          {results.correct.map((item, index) => (
+            <View key={index} style={styles.resultsText}>
+              <Text>{item}</Text>
+            </View>
+          ))}
+        </View>
+
+        <View style={styles.resultsInner}>
+          <Text>Incorrect</Text>
+          {results.incorrect.map((item, index) => (
+            <View key={index} style={styles.resultsText}>
+              <Text>{item}</Text>
+            </View>
+          ))}
+        </View>
       </View>
     </View>
   );
@@ -139,17 +171,15 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   buttonContainer: {
-    flexDirection: "row",
-    width: "100%",
-    justifyContent: "space-evenly",
+    justifyContent: "center",
+    alignItems: "center",
+    marginHorizontal: 16,
+    marginTop: 32,
   },
   btnStyle: {
-    width: "45%",
     backgroundColor: "#dddcdc",
-    borderColor: "#9593f5",
+    borderColor: "#079813",
     borderWidth: 1,
-    height: "auto",
-    marginBottom: 8,
   },
   btnText: {
     color: "black",
@@ -157,5 +187,21 @@ const styles = StyleSheet.create({
     padding: 4,
     alignItems: "center",
     justifyContent: "center",
+  },
+  resultsOuter: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 16,
+  },
+  resultsInner: {
+    width: "48%",
+    alignItems: "center",
+  },
+  resultsText: {
+    borderWidth: 1,
+    borderRadius: 4,
+    padding: 4,
+    marginVertical: 4,
+    width: "100%",
   },
 });
