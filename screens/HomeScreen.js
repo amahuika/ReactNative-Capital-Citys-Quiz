@@ -2,6 +2,7 @@ import { StyleSheet, View } from "react-native";
 import MyButton from "../components/MyButton";
 
 function HomeScreen({ navigation }) {
+  // navigation handlers
   function quizPress() {
     navigation.navigate("quiz");
   }

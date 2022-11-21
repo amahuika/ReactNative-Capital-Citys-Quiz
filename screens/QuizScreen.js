@@ -2,11 +2,9 @@ import { StyleSheet, Text, View } from "react-native";
 import capitalCitiesData from "../assets/gameData/capitalCitiesData";
 import MyButton from "../components/MyButton";
 import { ShuffleArray } from "../assets/helperFunctions/HelperFunctions";
-
 import ContinentBtnGroup from "../components/ContinentBtnGroup";
 
 const AllGamePlayData = capitalCitiesData;
-
 const Europe = capitalCitiesData.filter((item) => item.continent === "Europe");
 const Africa = capitalCitiesData.filter((item) => item.continent === "Africa");
 const Americas = capitalCitiesData.filter(

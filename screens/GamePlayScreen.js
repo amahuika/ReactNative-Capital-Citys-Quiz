@@ -16,6 +16,9 @@ import Footer from "../components/quiz/Footer";
 const AllGamePlayData = capitalCitiesData;
 let GamePlayData = capitalCitiesData;
 
+// connect to db
+const db = DatabaseConnection.getConnection();
+
 function GamePlayScreen({ route, navigation }) {
   const [gameData, setGameData] = useState({
     country: "",
@@ -28,10 +31,9 @@ function GamePlayScreen({ route, navigation }) {
   const [quizCount, setQuizCount] = useState(0);
   const [hasFinished, setHasFinished] = useState(false);
 
-  // connect to db
-  const db = DatabaseConnection.getConnection();
   const Continent = route.params.continent;
   GamePlayData = route.params.GamePlayData;
+
   // create table if not exists function
   function createTable() {
     db.transaction((tx) => {
@@ -44,13 +46,15 @@ function GamePlayScreen({ route, navigation }) {
   }
 
   useLayoutEffect(() => {
+    // set header title
     navigation.setOptions({ title: Continent });
     // create table
     createTable();
 
+    // check if quiz has finished
     if (quizCount === GamePlayData.length) {
       setHasFinished(true);
-      // navigation.navigate("quiz");
+
       return;
     }
     setGameData((val) => ({
@@ -61,11 +65,13 @@ function GamePlayScreen({ route, navigation }) {
 
     const optionsArr = [GamePlayData[quizCount].capital];
 
+    // add options
     while (optionsArr.length < 4) {
       let randNum = RandomNum(GamePlayData.length);
       optionsArr.push(AllGamePlayData[randNum].capital);
     }
 
+    // shuffle array and add set options in state
     const shuffledArray = ShuffleArray(optionsArr);
     setOptions((val) => [...shuffledArray]);
     setQuizCount((val) => val + 1);
@@ -104,7 +110,6 @@ function GamePlayScreen({ route, navigation }) {
       );
 
       // insert data to DB
-
       insertData(
         selected,
         gameData.capital,
@@ -178,6 +183,7 @@ function GamePlayScreen({ route, navigation }) {
 
 export default GamePlayScreen;
 
+//styles
 const styles = StyleSheet.create({
   outerContainer: {
     flex: 1,
