@@ -27,12 +27,12 @@ const capitalCitiesData = [
   {
     country: "Antigua and Barbuda",
     capital: "St. John's",
-    continent: "America",
+    continent: "Americas",
   },
   {
     country: "Argentina",
     capital: "Buenos Aires",
-    continent: "America",
+    continent: "Americas",
   },
   {
     country: "Armenia",
@@ -42,7 +42,7 @@ const capitalCitiesData = [
   {
     country: "Australia",
     capital: "Canberra",
-    continent: "Oceania",
+    continent: "Australia & Oceania",
   },
   {
     country: "Austria",
@@ -57,7 +57,7 @@ const capitalCitiesData = [
   {
     country: "Bahamas",
     capital: "Nassau",
-    continent: "America",
+    continent: "Americas",
   },
   {
     country: "Bahrain",
@@ -72,7 +72,7 @@ const capitalCitiesData = [
   {
     country: "Barbados",
     capital: "Bridgetown",
-    continent: "America",
+    continent: "Americas",
   },
   {
     country: "Belarus",
@@ -87,8 +87,9 @@ const capitalCitiesData = [
   {
     country: "Belize",
     capital: "Belmopan",
-    continent: "America",
+    continent: "Americas",
   },
+
   {
     country: "Benin",
     capital: "Porto Novo",
@@ -102,7 +103,7 @@ const capitalCitiesData = [
   {
     country: "Bolivia",
     capital: "Sucre",
-    continent: "America",
+    continent: "Americas",
   },
   {
     country: "Bosnia and Herzegovina",
@@ -117,7 +118,7 @@ const capitalCitiesData = [
   {
     country: "Brazil",
     capital: "Brasilia",
-    continent: "America",
+    continent: "Americas",
   },
   {
     country: "Brunei",
@@ -152,7 +153,7 @@ const capitalCitiesData = [
   {
     country: "Canada",
     capital: "Ottawa",
-    continent: "America",
+    continent: "Americas",
   },
   {
     country: "Cape Verde",
@@ -172,7 +173,7 @@ const capitalCitiesData = [
   {
     country: "Chile",
     capital: "Santiago",
-    continent: "America",
+    continent: "Americas",
   },
   {
     country: "China",
@@ -182,7 +183,7 @@ const capitalCitiesData = [
   {
     country: "Colombia",
     capital: "Bogota",
-    continent: "America",
+    continent: "Americas",
   },
   {
     country: "Comoros",
@@ -192,7 +193,7 @@ const capitalCitiesData = [
   {
     country: "Costa Rica",
     capital: "San José",
-    continent: "America",
+    continent: "Americas",
   },
   {
     country: "Croatia",
@@ -202,7 +203,7 @@ const capitalCitiesData = [
   {
     country: "Cuba",
     capital: "Havana",
-    continent: "America",
+    continent: "Americas",
   },
   {
     country: "Cyprus",
@@ -232,23 +233,24 @@ const capitalCitiesData = [
   {
     country: "Dominica",
     capital: "Roseau",
-    continent: "America",
+    continent: "Americas",
   },
   {
     country: "Dominican Republic",
     capital: "Santo Domingo",
-    continent: "America",
+    continent: "Americas",
   },
   {
     country: "East Timor",
     capital: "Dili",
-    continent: "Oceania",
+    continent: "Australia & Oceania",
   },
   {
     country: "Ecuador",
     capital: "Quito",
-    continent: "America",
+    continent: "Americas",
   },
+
   {
     country: "Egypt",
     capital: "Cairo",
@@ -257,7 +259,7 @@ const capitalCitiesData = [
   {
     country: "El Salvador",
     capital: "San Salvador",
-    continent: "America",
+    continent: "Americas",
   },
   {
     country: "Equatorial Guinea",
@@ -287,7 +289,7 @@ const capitalCitiesData = [
   {
     country: "Fiji",
     capital: "Suva",
-    continent: "Oceania",
+    continent: "Australia & Oceania",
   },
   {
     country: "Finland",
@@ -332,12 +334,12 @@ const capitalCitiesData = [
   {
     country: "Grenada",
     capital: "St. George's",
-    continent: "America",
+    continent: "Americas",
   },
   {
     country: "Guatemala",
     capital: "Guatemala City",
-    continent: "America",
+    continent: "Americas",
   },
   {
     country: "Guinea",
@@ -352,17 +354,17 @@ const capitalCitiesData = [
   {
     country: "Guyana",
     capital: "Georgetown",
-    continent: "America",
+    continent: "Americas",
   },
   {
     country: "Haiti",
     capital: "Port-au-Prince",
-    continent: "America",
+    continent: "Americas",
   },
   {
     country: "Honduras",
     capital: "Tegucigalpa",
-    continent: "America",
+    continent: "Americas",
   },
   {
     country: "Hungary",
@@ -417,7 +419,7 @@ const capitalCitiesData = [
   {
     country: "Jamaica",
     capital: "Kingston",
-    continent: "America",
+    continent: "Americas",
   },
   {
     country: "Japan",
@@ -442,7 +444,7 @@ const capitalCitiesData = [
   {
     country: "Kiribati",
     capital: "Tarawa",
-    continent: "Oceania",
+    continent: "Australia & Oceania",
   },
   {
     country: "Korea, North",
@@ -499,6 +501,7 @@ const capitalCitiesData = [
     capital: "Tripoli",
     continent: "Africa",
   },
+
   {
     country: "Liechtenstein",
     capital: "Vaduz",
@@ -547,7 +550,7 @@ const capitalCitiesData = [
   {
     country: "Marshall Islands",
     capital: "Majuro",
-    continent: "Oceania",
+    continent: "Australia & Oceania",
   },
   {
     country: "Mauritania",
@@ -562,12 +565,12 @@ const capitalCitiesData = [
   {
     country: "Mexico",
     capital: "Mexico City",
-    continent: "America",
+    continent: "Americas",
   },
   {
     country: "Micronesia",
     capital: "Palikir",
-    continent: "Oceania",
+    continent: "Australia & Oceania",
   },
   {
     country: "Moldova",
@@ -612,7 +615,7 @@ const capitalCitiesData = [
   {
     country: "Nauru",
     capital: "Yaren",
-    continent: "Oceania",
+    continent: "Australia & Oceania",
   },
   {
     country: "Nepal",
@@ -627,12 +630,12 @@ const capitalCitiesData = [
   {
     country: "New Zealand",
     capital: "Wellington",
-    continent: "Oceania",
+    continent: "Australia & Oceania",
   },
   {
     country: "Nicaragua",
     capital: "Managua",
-    continent: "America",
+    continent: "Americas",
   },
   {
     country: "Niger",
@@ -667,7 +670,7 @@ const capitalCitiesData = [
   {
     country: "Palau",
     capital: "Melekeok",
-    continent: "Oceania",
+    continent: "Australia & Oceania",
   },
   {
     country: "Palestine",
@@ -677,22 +680,22 @@ const capitalCitiesData = [
   {
     country: "Panama",
     capital: "Panama City",
-    continent: "America",
+    continent: "Americas",
   },
   {
     country: "Papua New Guinea",
     capital: "Port Moresby",
-    continent: "Oceania",
+    continent: "Australia & Oceania",
   },
   {
     country: "Paraguay",
     capital: "Asunción",
-    continent: "America",
+    continent: "Americas",
   },
   {
     country: "Peru",
     capital: "Lima",
-    continent: "America",
+    continent: "Americas",
   },
   {
     country: "Philippines",
@@ -737,23 +740,23 @@ const capitalCitiesData = [
   {
     country: "Saint Kitts and Nevis",
     capital: "Basseterre",
-    continent: "America",
+    continent: "Americas",
   },
   {
     country: "Saint Lucia",
     capital: "Castries",
-    continent: "America",
+    continent: "Americas",
   },
   {
     country: "Saint Vincent and the Grenadines",
     capital: "Kingstown",
-    continent: "America",
+    continent: "Americas",
   },
 
   {
     country: "Samoa",
     capital: "Apia",
-    continent: "Oceania",
+    continent: "Australia & Oceania",
   },
   {
     country: "San Marino",
@@ -808,7 +811,7 @@ const capitalCitiesData = [
   {
     country: "Solomon Islands",
     capital: "Honiara",
-    continent: "Oceania",
+    continent: "Australia & Oceania",
   },
   {
     country: "Somalia",
@@ -843,7 +846,7 @@ const capitalCitiesData = [
   {
     country: "Suriname",
     capital: "Paramaribo",
-    continent: "America",
+    continent: "Americas",
   },
   {
     country: "Sweden",
@@ -888,12 +891,12 @@ const capitalCitiesData = [
   {
     country: "Tonga",
     capital: "Nukualofa",
-    continent: "Oceania",
+    continent: "Australia & Oceania",
   },
   {
     country: "Trinidad and Tobago",
     capital: "Port of Spain",
-    continent: "America",
+    continent: "Americas",
   },
   {
     country: "Tunisia",
@@ -913,7 +916,7 @@ const capitalCitiesData = [
   {
     country: "Tuvalu",
     capital: "Funafuti",
-    continent: "Oceania",
+    continent: "Australia & Oceania",
   },
   {
     country: "Uganda",
@@ -938,12 +941,12 @@ const capitalCitiesData = [
   {
     country: "United States",
     capital: "Washington D.C.",
-    continent: "America",
+    continent: "Americas",
   },
   {
     country: "Uruguay",
     capital: "Montevideo",
-    continent: "America",
+    continent: "Americas",
   },
   {
     country: "Uzbekistan",
@@ -953,7 +956,7 @@ const capitalCitiesData = [
   {
     country: "Vanuatu",
     capital: "Port Vila",
-    continent: "Oceania",
+    continent: "Australia & Oceania",
   },
   {
     country: "Vatican City",
@@ -963,7 +966,7 @@ const capitalCitiesData = [
   {
     country: "Venezuela",
     capital: "Caracas",
-    continent: "America",
+    continent: "Americas",
   },
   {
     country: "Vietnam",

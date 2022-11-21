@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     justifyContent: "space-between",
+    paddingHorizontal: 8,
   },
   btnStyle: {
     width: "48%",

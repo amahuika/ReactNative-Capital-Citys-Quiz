@@ -1,15 +1,28 @@
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { DatabaseConnection } from "../assets/database/DatabaseConnection";
+import SelectDropdown from "react-native-select-dropdown";
+import { FontAwesome } from "@expo/vector-icons";
+
 import MyButton from "../components/MyButton";
 
-function ResultsScreen(props) {
+const dropdownData = [
+  "All Results",
+  "Europe",
+  "Americas",
+  "Australia & Oceania",
+  "Africa",
+  "Asia",
+];
+
+function ResultsScreen() {
   const [incorrectResults, setIncorrectResults] = useState([]);
+  const [resultsTitle, setResultsTitle] = useState("All Results");
 
   const db = DatabaseConnection.getConnection();
 
   useEffect(() => {
-    getData();
+    getAllData();
   }, []);
 
   function clearTable() {
@@ -20,7 +33,7 @@ function ResultsScreen(props) {
     });
   }
 
-  function getData() {
+  function getAllData() {
     db.transaction((tx) => {
       tx.executeSql("SELECT * FROM table_results", [], (txt, results) => {
         setIncorrectResults((val) => [...results.rows._array]);
@@ -28,52 +41,92 @@ function ResultsScreen(props) {
     });
   }
 
-  console.log(incorrectResults);
+  function getDataContinent(continent) {
+    setResultsTitle((val) => continent);
+    if (continent === "All Results") {
+      getAllData();
+      return;
+    }
+    db.transaction((tx) => {
+      tx.executeSql(
+        `SELECT * FROM table_results WHERE continent = '${continent}'`,
+        [],
+        (txt, results) => {
+          setIncorrectResults((val) => [...results.rows._array]);
+        }
+      );
+    });
+  }
 
   return (
-    <View>
+    <View style={styles.container}>
+      <View style={styles.buttonContainer}>
+        <SelectDropdown
+          data={dropdownData}
+          defaultButtonText="Select results to be displayed"
+          buttonStyle={styles.buttonStyle}
+          dropdownStyle={styles.dropdownStyle}
+          rowTextStyle={styles.rowTextStyle}
+          buttonTextAfterSelection={() => "Select results to be displayed"}
+          onSelect={(item, index) => {
+            getDataContinent(item);
+          }}
+          renderDropdownIcon={() => (
+            <FontAwesome name="angle-down" size={36} color="black" />
+          )}
+        />
+      </View>
       <View style={styles.buttonContainer}>
         <MyButton
-          text="Clear"
+          text="Clear All"
           btnStyle={styles.buttonClear}
           onPress={clearTable}
         />
-        <MyButton
-          text="Refresh"
-          btnStyle={styles.buttonRefresh}
-          onPress={getData}
-        />
       </View>
-      {incorrectResults.map((item) => {
-        return (
-          <View key={item.id} style={styles.listContainer}>
-            <Text style={styles.countryText}>{item.country}</Text>
-            <Text>
-              you selected <Text style={styles.boldText}>{item.incorrect}</Text>{" "}
-              correct answer is{" "}
-              <Text style={styles.boldText}>{item.correct}</Text>
-            </Text>
-          </View>
-        );
-      })}
+      <View style={styles.resultsTitle}>
+        <Text style={styles.resultsTitleText}>{resultsTitle}</Text>
+      </View>
+      <ScrollView
+        contentContainerStyle={{
+          paddingBottom: 150,
+          paddingTop: 8,
+        }}
+        style={{ padding: 8 }}
+      >
+        {incorrectResults.map((item) => {
+          return (
+            <View key={item.id} style={styles.listContainer}>
+              <Text style={styles.countryText}>{item.country}</Text>
+              <Text>
+                You selected{" "}
+                <Text style={styles.boldText}>{item.incorrect},</Text> Correct
+                answer is <Text style={styles.boldText}>{item.correct}</Text>
+              </Text>
+            </View>
+          );
+        })}
+      </ScrollView>
     </View>
   );
 }
 export default ResultsScreen;
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flex: 1,
+  },
   buttonContainer: {
     flexDirection: "row",
-    justifyContent: "space-evenly",
+    alignItems: "center",
+    justifyContent: "center",
   },
   buttonRefresh: {
     width: "40%",
-    backgroundColor: "#28be32",
+    backgroundColor: "#079813",
   },
   buttonClear: {
     width: "40%",
-    backgroundColor: "#be2828",
+    backgroundColor: "#f23838",
   },
   listContainer: {
     justifyContent: "center",
@@ -91,6 +144,29 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   boldText: {
+    fontWeight: "bold",
+  },
+  rowTextStyle: {
+    color: "#fefefe",
+  },
+  buttonStyle: {
+    width: "80%",
+    backgroundColor: "#fefefe",
+    borderRadius: 4,
+    elevation: 4,
+    marginTop: 16,
+  },
+  dropdownStyle: {
+    backgroundColor: "#4f4d4d",
+    borderRadius: 4,
+  },
+  resultsTitle: {
+    justifyContent: "center",
+    alignItems: "center",
+    paddingBottom: 16,
+  },
+  resultsTitleText: {
+    fontSize: 24,
     fontWeight: "bold",
   },
 });

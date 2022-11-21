@@ -1,4 +1,10 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  ImageBackground,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import MyButton from "../components/MyButton";
 
 function HomeScreen({ navigation }) {
@@ -40,22 +46,23 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   outerContainer: {
     width: "100%",
-    height: "100%",
+    flex: 1,
     justifyContent: "center",
+    backgroundColor: "#C1CACB",
     padding: 24,
   },
   weatherButton: {
-    height: 120,
     backgroundColor: "#83C8E4",
+    padding: 16,
   },
 
   quizButton: {
-    height: 120,
+    padding: 16,
     backgroundColor: "#079813",
   },
 
   resultsButton: {
-    height: 120,
+    padding: 16,
     backgroundColor: "#f23838",
   },
 });

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 
 const List = ({ items, textStyle }) => {
   return items.map((value) => (
@@ -10,25 +10,39 @@ const List = ({ items, textStyle }) => {
 
 function ResultsLists({ correct, incorrect }) {
   return (
-    <View style={styles.resultsOuter}>
-      <View style={styles.resultsInner}>
-        {correct.length > 0 && (
-          <>
-            <Text style={styles.headerCorrect}>Correct</Text>
-            <List items={correct} textStyle={styles.textCorrect} />
-          </>
-        )}
-      </View>
+    <>
+      <View style={styles.resultsHeaderContainer}>
+        <Text style={styles.headerCorrect}>
+          {correct.length > 0 ? `Correct: ${correct.length}` : ""}
+        </Text>
 
-      <View style={styles.resultsInner}>
-        {incorrect.length > 0 && (
-          <>
-            <Text style={styles.headerIncorrect}>Incorrect</Text>
-            <List items={incorrect} textStyle={styles.textIncorrect} />
-          </>
-        )}
+        <Text style={styles.headerIncorrect}>
+          {incorrect.length > 0 ? `Incorrect: ${incorrect.length}` : ""}
+        </Text>
       </View>
-    </View>
+      <ScrollView>
+        <View style={styles.resultsOuter}>
+          <View style={styles.resultsInner}>
+            {correct.length > 0 && (
+              <>
+                {/* <Text style={styles.headerCorrect}>Correct</Text> */}
+                <List items={correct} textStyle={styles.textCorrect} />
+              </>
+            )}
+          </View>
+
+          <View style={styles.resultsInner}>
+            {incorrect.length > 0 && (
+              <>
+                {/* <Text style={styles.headerIncorrect}>Incorrect</Text> */}
+
+                <List items={incorrect} textStyle={styles.textIncorrect} />
+              </>
+            )}
+          </View>
+        </View>
+      </ScrollView>
+    </>
   );
 }
 export default ResultsLists;
@@ -37,8 +51,8 @@ const styles = StyleSheet.create({
   resultsOuter: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 16,
-    marginBottom: 36,
+    marginBottom: 100,
+    paddingHorizontal: 8,
   },
   resultsInner: {
     width: "48%",
@@ -60,13 +74,24 @@ const styles = StyleSheet.create({
     borderColor: "#079813",
   },
   headerCorrect: {
+    textAlign: "center",
+    width: "48%",
     fontSize: 16,
     marginBottom: 8,
     color: "#079813",
   },
   headerIncorrect: {
+    textAlign: "center",
+    width: "48%",
     fontSize: 16,
     marginBottom: 8,
     color: "#f23838",
+  },
+  resultsHeaderContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 16,
+    marginBottom: 8,
   },
 });
