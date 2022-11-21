@@ -13,11 +13,11 @@ function ResultsLists({ correct, incorrect }) {
     <>
       <View style={styles.resultsHeaderContainer}>
         <Text style={styles.headerCorrect}>
-          {correct.length > 0 ? `Correct: ${correct.length}` : ""}
+          {correct.length > 0 ? "Correct" : ""}
         </Text>
 
         <Text style={styles.headerIncorrect}>
-          {incorrect.length > 0 ? `Incorrect: ${incorrect.length}` : ""}
+          {incorrect.length > 0 ? "Incorrect" : ""}
         </Text>
       </View>
       <ScrollView>

@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { ImageBackground, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import capitalCitiesData from "../assets/gameData/capitalCitiesData";
 import MyButton from "../components/MyButton";
 import { ShuffleArray } from "../assets/helperFunctions/HelperFunctions";
@@ -54,9 +53,9 @@ function QuizScreen({ navigation }) {
   return (
     <View style={styles.outerContainer}>
       <View style={styles.buttonContainer}>
-        <Text>
+        <Text style={styles.infoText}>
           You will be given the name of a Country select the correct capital
-          city fom the options provided
+          city fom the options provided.
         </Text>
         <MyButton
           text="All Countries"
@@ -94,5 +93,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     fontWeight: "none",
     color: "white",
+  },
+  infoText: {
+    fontSize: 16,
   },
 });

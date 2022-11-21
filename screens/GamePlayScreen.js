@@ -10,6 +10,8 @@ import { AlertNotificationRoot } from "react-native-alert-notification";
 import OptionButtons from "../components/quiz/OptionButtons";
 import { DatabaseConnection } from "../assets/database/DatabaseConnection";
 import ResultsLists from "../components/quiz/ResultsLists";
+import ShowResults from "../components/quiz/ShowResults";
+import Footer from "../components/quiz/Footer";
 
 const AllGamePlayData = capitalCitiesData;
 let GamePlayData = capitalCitiesData;
@@ -24,6 +26,7 @@ function GamePlayScreen({ route, navigation }) {
   const [userSelected, setUserSelected] = useState();
   const [results, setResults] = useState({ correct: [], incorrect: [] });
   const [quizCount, setQuizCount] = useState(0);
+  const [hasFinished, setHasFinished] = useState(false);
 
   // connect to db
   const db = DatabaseConnection.getConnection();
@@ -46,7 +49,8 @@ function GamePlayScreen({ route, navigation }) {
     createTable();
 
     if (quizCount === GamePlayData.length) {
-      navigation.navigate("quiz");
+      setHasFinished(true);
+      // navigation.navigate("quiz");
       return;
     }
     setGameData((val) => ({
@@ -130,49 +134,43 @@ function GamePlayScreen({ route, navigation }) {
     });
   }
 
+  function donePressHandle() {
+    navigation.navigate("quiz");
+  }
+
   return (
     <View style={styles.outerContainer}>
-      <View
-        style={{
-          alignItems: "center",
-        }}
-      >
-        <View style={styles.questionCount}>
-          <Text style={{ color: "white", fontSize: 18 }}>
-            {quizCount}/{GamePlayData.length}
-          </Text>
-        </View>
-      </View>
+      {!hasFinished && (
+        <>
+          <View
+            style={{
+              alignItems: "center",
+            }}
+          >
+            <View style={styles.questionCount}>
+              <Text style={{ color: "white", fontSize: 18 }}>
+                {quizCount}/{GamePlayData.length}
+              </Text>
+            </View>
+          </View>
+          <View style={styles.questionContainer}>
+            <Text style={styles.questionText}>{gameData.country}</Text>
+          </View>
+          <OptionButtons options={options} onPressAnswer={answerHandler} />
+        </>
+      )}
 
-      <View style={styles.questionContainer}>
-        <Text style={styles.questionText}>{gameData.country}</Text>
-      </View>
-      <OptionButtons options={options} onPressAnswer={answerHandler} />
-
-      <View>
-        <Text>Results</Text>
-        <View>
-          <Text>2/5</Text>
-        </View>
-      </View>
+      {hasFinished && (
+        <ShowResults
+          correct={results.correct.length}
+          questions={GamePlayData.length}
+          donePressHandle={donePressHandle}
+        />
+      )}
 
       <ResultsLists correct={results.correct} incorrect={results.incorrect} />
+      <Footer score={results.correct.length} />
 
-      <View
-        style={{
-          position: "absolute",
-          bottom: 0,
-          backgroundColor: "grey",
-          width: "100%",
-          padding: 8,
-        }}
-      >
-        <View style={{ flexDirection: "row", justifyContent: "center" }}>
-          <Text style={{ fontSize: 24, color: "white" }}>
-            Score: {results.correct.length}
-          </Text>
-        </View>
-      </View>
       <AlertNotificationRoot />
     </View>
   );
@@ -210,5 +208,25 @@ const styles = StyleSheet.create({
     padding: 8,
     borderBottomLeftRadius: 16,
     borderBottomRightRadius: 16,
+  },
+  resultsContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  resultsInner: {
+    backgroundColor: "green",
+    marginTop: 16,
+    borderRadius: 100,
+    padding: 26,
+  },
+  resultsText: {
+    color: "#fefefe",
+    fontSize: 32,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  backButton: {
+    backgroundColor: "#483b3b",
+    paddingHorizontal: 32,
   },
 });

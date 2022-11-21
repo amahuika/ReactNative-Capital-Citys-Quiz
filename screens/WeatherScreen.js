@@ -8,10 +8,6 @@ import { getWindDirection } from "../assets/helperFunctions/HelperFunctions";
 import { LinearGradient } from "expo-linear-gradient";
 import WeatherContainer from "../components/weatherScreen/WeatherContainer";
 
-// const data = capitalCitiesData.map((item, index) => {
-//   return { key: index, value: `${item.country} - ${item.capital}` };
-// });
-
 const data = capitalCitiesData.map((item, index) => {
   return `${item.country} - ${item.capital}`;
 });
@@ -19,8 +15,8 @@ const data = capitalCitiesData.map((item, index) => {
 const apiKey = "&appid=a68ccd362f583dcd372f2d38ca449aa8";
 const baseUrl = "https://api.openweathermap.org/data/2.5/weather?q=";
 
-function WeatherScreen(props) {
-  const [selected, setSelected] = useState();
+function WeatherScreen() {
+  const [selected, setSelected] = useState("");
   const [weather, setWeather] = useState({
     icon: "",
     temp: "",
@@ -76,7 +72,6 @@ function WeatherScreen(props) {
           )}
         />
       </View>
-
       <WeatherContainer {...weather} city={selected} />
     </LinearGradient>
   );

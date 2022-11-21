@@ -1,10 +1,4 @@
-import {
-  ImageBackground,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { StyleSheet, View } from "react-native";
 import MyButton from "../components/MyButton";
 
 function HomeScreen({ navigation }) {

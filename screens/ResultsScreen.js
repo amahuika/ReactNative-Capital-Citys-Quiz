@@ -5,6 +5,7 @@ import SelectDropdown from "react-native-select-dropdown";
 import { FontAwesome } from "@expo/vector-icons";
 
 import MyButton from "../components/MyButton";
+import CenteredRowView from "../components/CenteredRowView";
 
 const dropdownData = [
   "All Results",
@@ -35,9 +36,13 @@ function ResultsScreen() {
 
   function getAllData() {
     db.transaction((tx) => {
-      tx.executeSql("SELECT * FROM table_results", [], (txt, results) => {
-        setIncorrectResults((val) => [...results.rows._array]);
-      });
+      tx.executeSql(
+        "SELECT * FROM table_results ORDER BY country ASC",
+        [],
+        (txt, results) => {
+          setIncorrectResults((val) => [...results.rows._array]);
+        }
+      );
     });
   }
 
@@ -49,7 +54,7 @@ function ResultsScreen() {
     }
     db.transaction((tx) => {
       tx.executeSql(
-        `SELECT * FROM table_results WHERE continent = '${continent}'`,
+        `SELECT * FROM table_results WHERE continent = '${continent}' ORDER BY country ASC`,
         [],
         (txt, results) => {
           setIncorrectResults((val) => [...results.rows._array]);
@@ -60,7 +65,7 @@ function ResultsScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.buttonContainer}>
+      <CenteredRowView>
         <SelectDropdown
           data={dropdownData}
           defaultButtonText="Select results to be displayed"
@@ -75,14 +80,14 @@ function ResultsScreen() {
             <FontAwesome name="angle-down" size={36} color="black" />
           )}
         />
-      </View>
-      <View style={styles.buttonContainer}>
+      </CenteredRowView>
+      <CenteredRowView>
         <MyButton
           text="Clear All"
           btnStyle={styles.buttonClear}
           onPress={clearTable}
         />
-      </View>
+      </CenteredRowView>
       <View style={styles.resultsTitle}>
         <Text style={styles.resultsTitleText}>{resultsTitle}</Text>
       </View>
@@ -114,11 +119,6 @@ export default ResultsScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
   },
   buttonRefresh: {
     width: "40%",
