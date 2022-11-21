@@ -67,7 +67,8 @@ function GamePlayScreen({ route, navigation }) {
 
     // add options
     while (optionsArr.length < 4) {
-      let randNum = RandomNum(GamePlayData.length);
+      let randNum = RandomNum(AllGamePlayData.length);
+
       optionsArr.push(AllGamePlayData[randNum].capital);
     }
 
@@ -75,10 +76,13 @@ function GamePlayScreen({ route, navigation }) {
     const shuffledArray = ShuffleArray(optionsArr);
     setOptions((val) => [...shuffledArray]);
     setQuizCount((val) => val + 1);
+
+    console.log("options: " + options);
   }, [userSelected]);
 
   // answer handler
   function answerHandler(selected) {
+    console.log("User Selected: " + selected);
     // unique id
     const id = new Date().valueOf();
 

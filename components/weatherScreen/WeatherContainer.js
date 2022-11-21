@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View, Image } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
-import CenteredRowView from "../CenteredRowView";
 
 function WeatherContainer({
   description,
@@ -14,6 +13,7 @@ function WeatherContainer({
   feels_like,
   city,
   icon,
+  errorMessage,
 }) {
   return (
     <View style={styles.weatherContainer}>
@@ -26,11 +26,13 @@ function WeatherContainer({
       </View>
       {city !== "" && (
         <>
-          <CenteredRowView>
-            <Text style={styles.tempText}>{city}</Text>
-          </CenteredRowView>
+          <View>
+            <Text style={styles.tempText}>
+              {errorMessage === "" ? city : errorMessage}
+            </Text>
+          </View>
 
-          <CenteredRowView>
+          <View>
             <Image
               source={{
                 uri: `http://openweathermap.org/img/wn/${icon}@2x.png`,
@@ -41,7 +43,7 @@ function WeatherContainer({
               }}
             />
             <Text>{description}</Text>
-          </CenteredRowView>
+          </View>
           <View style={styles.tempContainer}>
             <View>
               <Text style={styles.tempText}>Temp {temp}°C</Text>
@@ -98,7 +100,7 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "center",
   },
   weatherHeaderText: {
     fontSize: 26,

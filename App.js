@@ -13,6 +13,7 @@ import GamePlayScreen from "./screens/GamePlayScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
+
 export default function App() {
   function MyStack() {
     return (

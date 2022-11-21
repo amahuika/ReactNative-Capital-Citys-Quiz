@@ -17,6 +17,7 @@ const baseUrl = "https://api.openweathermap.org/data/2.5/weather?q=";
 
 function WeatherScreen() {
   const [selected, setSelected] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [weather, setWeather] = useState({
     icon: "",
     temp: "",
@@ -34,25 +35,34 @@ function WeatherScreen() {
     const city = selected.split(" - ").pop();
     const country = selected.split(" - ").shift();
     setSelected(`${city}, ${country}`);
-    axios.get(`${baseUrl}${city}${apiKey}&units=metric`).then((response) => {
-      const allWeather = response.data;
-      const updateWeather = {
-        icon: allWeather.weather[0].icon,
-        temp: allWeather.main.temp,
-        feels_like: allWeather.main.feels_like,
-        temp_min: allWeather.main.temp_min,
-        temp_max: allWeather.main.temp_max,
-        description: allWeather.weather[0].description,
-        humidity: allWeather.main.humidity,
-        visibility: allWeather.visibility / 1000,
-        speed: allWeather.wind.speed,
-        windDirection: getWindDirection(allWeather.wind.deg),
-      };
 
-      setWeather((val) => {
-        return { ...updateWeather };
+    axios
+      .get(`${baseUrl}${city}${apiKey}&units=metric`)
+      .then((response) => {
+        const allWeather = response.data;
+        const updateWeather = {
+          icon: allWeather.weather[0].icon,
+          temp: allWeather.main.temp,
+          feels_like: allWeather.main.feels_like,
+          temp_min: allWeather.main.temp_min,
+          temp_max: allWeather.main.temp_max,
+          description: allWeather.weather[0].description,
+          humidity: allWeather.main.humidity,
+          visibility: allWeather.visibility / 1000,
+          speed: allWeather.wind.speed,
+          windDirection: getWindDirection(allWeather.wind.deg),
+        };
+        setWeather((val) => {
+          return { ...updateWeather };
+        });
+        setErrorMessage("");
+      })
+      .catch(function (error) {
+        console.log(error.toString());
+        const message = error.toString().split(": ").pop();
+        console.log(message);
+        setErrorMessage("Something went wrong! \n" + message);
       });
-    });
   }
 
   return (
@@ -72,7 +82,11 @@ function WeatherScreen() {
           )}
         />
       </View>
-      <WeatherContainer {...weather} city={selected} />
+      <WeatherContainer
+        {...weather}
+        city={selected}
+        errorMessage={errorMessage}
+      />
     </LinearGradient>
   );
 }

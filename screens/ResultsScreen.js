@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
 import { DatabaseConnection } from "../assets/database/DatabaseConnection";
 import SelectDropdown from "react-native-select-dropdown";
 import { FontAwesome } from "@expo/vector-icons";
@@ -22,6 +22,27 @@ function ResultsScreen() {
 
   const db = DatabaseConnection.getConnection();
 
+  const confirmDelete = () => {
+    Alert.alert(
+      "Delete All Results",
+      "Are you sure you would like to delete all results?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => {
+            return;
+          },
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          onPress: () => {
+            clearTable();
+          },
+        },
+      ]
+    );
+  };
   useEffect(() => {
     getAllData();
   }, []);
@@ -85,7 +106,7 @@ function ResultsScreen() {
         <MyButton
           text="Clear All"
           btnStyle={styles.buttonClear}
-          onPress={clearTable}
+          onPress={confirmDelete}
         />
       </CenteredRowView>
       <View style={styles.resultsTitle}>
@@ -134,7 +155,7 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     borderWidth: 1,
     borderColor: "#f64c4c",
-    marginHorizontal: 16,
+    marginHorizontal: 8,
     padding: 4,
     borderRadius: 4,
     backgroundColor: "#ebb1b1",
