@@ -1,21 +1,28 @@
+
 # Capitals of the world quiz
-Built with 
-React native
-React Native Capitals of the world quiz
+
+A React native application quiz on all the capitals of the world. 
+
+- Quiz can be taken by continent or all.
+
+- All incorrect results will be saved using expo SQLite so you can review your incorrect results.
+
+- Lastly you can view the current weather in any capital of the world using the openweather Api
+
+Made with React Native, SQLite, axios, Open Weather Api, Javascript
 
 
-## Run Locally
 
-download project
-
-cd into project
-
-npm start
-
-run on expo
+## Demo
 
 
-https://user-images.githubusercontent.com/75348455/232001827-d233eb3c-bded-494f-ba0e-5aaecf6081c9.mp4
+
+
+
+https://user-images.githubusercontent.com/75348455/232002806-35eb247a-cec2-4db0-9fff-d6a117721595.mp4
+
+
+
 
 
 ## Authors
